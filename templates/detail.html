@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>{{ year }}年{{ month }}月{{ day }}日の予定</h1>
+    </div>
+    <div class="col-md-2">
+        <a href="/admin" class="btn btn-primary">もどる</a>
+    </div>
+</div>
+<hr>
+<p>{{ username }}さん、予定を確認・登録・終了してください。</p>
+
+<br>
+<h3>予定一覧</h3>
+<p>予定を終了した場合はチェックボックスにチェックをしてください。</p>
+<form action="/done" method="post">
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>内容</th>
+            <th>締め切り</th>
+            <th>終了</th>
+            <th></th>   <!-- new -->
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in task %}
+        <tr>
+            <td>{{ t.content }}</td>
+            <td>{{ t.deadline }}</td>
+            <td>
+                {% if t.done %}
+                <span class="text-success">終了済</span>
+                {% else %}
+                <input type="checkbox" name="done[]" value="{{ t.id }}"> &nbsp; <span class="text-danger">終了する</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="/delete/{{ t.id }}" class="btn btn-danger btn-sm">削除</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% if task | length != 0 %}
+    <button type="submit" class="btn btn-primary">更新する</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary" disabled="disabled">更新する</button>
+    {% endif %}
+</form>
+
+<br>
+<hr>
+<br>
+<h3>予定の追加</h3>
+<form action="/add" method="post">
+    <h5>内容</h5>
+    <p><input type="text" size="50" maxlength="200" name="content"></p>
+    <br>
+    <h5>締め切り時間</h5>
+    <p>
+        {{ year }}年{{ month }}月{{ day }}日
+        <input type="hidden" name="year" value="{{ year }}">
+        <input type="hidden" name="month" value="{{ month }}">
+        <input type="hidden" name="day" value="{{ day }}">
+        <select name="hour">
+            {% for h in range(25) %}
+            <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>時
+        <select name="minute">
+            {% for m in range(61) %}
+            <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>分
+    </p>
+    <br>
+    <button type="submit" class="btn btn-primary">予定を追加する</button>
+</form>
+
+{% endblock %}

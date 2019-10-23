@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<h2>Administrator page</h2>
+<hr>
+<p>Hi, {{ user['username'] }}.</p>
+<p><a href="/" class="btn btn-primary">もどる</a></p>
+<br>
+<h3> - 直近の予定 - </h3>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th>#</th>
+        <th>内容</th>
+        <th>締め切り</th>
+        <th>掲載日</th>
+        <th>終了</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for t in task %}
+    <tr>
+        <td>{{ t['id'] }}</td>
+        <td><a href="{{links[loop.index-1]}}">{{ t['content'] }}</a></td>  <!-- 修正 -->
+        <td>{{ t['deadline'] }}</td>
+        <td>{{ t['date'] }}</td>
+        <td>{% if t['done'] %}
+            <div class="text-success">済</div>
+            {% else %}
+            <div class="text-danger">未</div>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<h3> - カレンダー - </h3>
+<p> <span class="text-warning">■</span> ... 予定があります。&nbsp;
+    <span class="text-secondary">■</span> ... 過去の予定。 &nbsp;
+    <span class="text-success">■</span> ... 終了した予定。
+</p>
+
+<br>
+<p>↓　日付をクリックして予定を追加・確認などができます。</p>
+{% autoescape false%}
+{{ calender }}
+{% endautoescape%}
+<br>
+
+{% endblock %}

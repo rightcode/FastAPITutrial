@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>User Registration</h1>
+    </div>
+    <div class="col-md-2">
+        <a href="/admin" class="btn btn-primary">ログイン</a>
+    </div>
+</div>
+
+<hr>
+<form action="/register" method="post">
+    <br>
+    <p>
+        ユーザ名<br>
+        <input type="text" size="30" maxlength="20" name="username" value="{{username}}" placeholder="4文字以上20文字以下の半角英数字">
+    </p>
+    <br>
+    <p>
+        パスワード<br>
+        <input type="password" size="30" maxlength="20" name="password" placeholder="6文字以上20文字以下の半角英数字">
+    </p>
+    <br>
+    <p>
+        パスワード (確認用)<br>
+        <input type="password" size="30" maxlength="20" name="password_tmp" placeholder="6文字以上20文字以下の半角英数字">
+    </p>
+    <br>
+    <p>
+        メールアドレス<br>
+        <input type="email" size="40" maxlength="60" name="mail" placeholder="sample@example.com">
+    </p>
+    <br><br>
+    <button type="submit" class="btn btn-primary">登録</button>
+</form>
+
+<p class="text-danger">{% for e in error %}{{ e }}<br>{% endfor %}</p>
+
+{% endblock %}
